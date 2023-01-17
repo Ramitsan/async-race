@@ -7,5 +7,5 @@
     "allowJs": true,
     "jsx": "react"
   },
-  "files": ["src/index.ts"]
+  "files": ["src/index.ts", "declare.d.ts"]
 }
