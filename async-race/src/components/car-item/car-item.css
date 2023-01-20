@@ -1,13 +1,13 @@
 .car-item {
-  height: 210px;
+  height: 170px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: #0a0211;;
+  background-color: #0a0211;
   background-image: url('../../assets/night-city.png'), url('../../assets/sky-night.png');
-  background-size: 350px auto, 350px 123px;
+  background-size: 310px auto, 350px 135px;
   background-repeat: repeat-x;
-  background-position: center 45px, center top;
+  background-position: center 30px, center top;
 }
 
 .car-item__wrapper {
@@ -19,8 +19,14 @@
   justify-content: flex-start;
 }
 
+.car-item__name {
+  font-size: 14px;
+  font-weight: bold;
+  color:rgb(255, 145, 0);
+}
+
 .car-item__buttons {
-  width: 150px;
+  width: 130px;
   padding-top: 5px;
   display: flex;
   flex-direction: column;
@@ -34,27 +40,29 @@
   width: 90%;
   margin-bottom: 5px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 .car-item__btn {
-    min-width: 55px;
-    padding: 5px;
-    font-size: 12px;
-    border-radius: 3px;
+  min-width: 55px;
+  margin-right: 5px;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 3px;
 }
 
 .car-image {
-  width: 150px;
+  width: 120px;
   height: auto;
 }
 
 .flag-image {
-  width: 55px;
+  width: 46px;
   height: auto;
+  margin-right: 140px;
 }
 
-.car-track {
+.car-item__track {
   width: 100%;
   flex-grow: 1;
   display: flex;

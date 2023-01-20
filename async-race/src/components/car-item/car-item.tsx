@@ -7,7 +7,7 @@ export default function CarItem({ data }: { data: ICar }) {
   return (
     <div className="car-item">
       <div className="car-item__wrapper">
-        <div>{data.id}</div>
+        <span className="car-item__name">{data.name}</span>
         <div className="car-item__buttons">
           <div className="car-item__button-wrapper">
             <button className="btn car-item__btn car-item__btn--edit">Edit</button>
@@ -20,7 +20,7 @@ export default function CarItem({ data }: { data: ICar }) {
           </div>
         </div>
 
-        <div className="car-track">
+        <div className="car-item__track">
           <CarImage className="car-image" style={{ fill: '#00f' }} />
           <FlagImage className="flag-image" style={{ fill: '#f00' }} />
         </div>
