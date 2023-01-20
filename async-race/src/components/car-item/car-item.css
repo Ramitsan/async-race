@@ -1,28 +1,43 @@
 .car-item {
   height: 170px;
   display: flex;
+  padding-top: 5px;
   flex-direction: column;
   justify-content: flex-end;
   background-color: #0a0211;
+  /* background-image: url('../../assets/night-city.png'), url('../../assets/sky-night.png');
+  background-size: 310px auto, 350px 135px;
+  background-repeat: repeat-x;
+  background-position: center 30px, center top; */
+}
+
+.car-item__wrapper {
+  width: 85%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background-image: url('../../assets/night-city.png'), url('../../assets/sky-night.png');
   background-size: 310px auto, 350px 135px;
   background-repeat: repeat-x;
   background-position: center 30px, center top;
-}
+} 
 
-.car-item__wrapper {
-  width: 95%;
-  height: 100%;
-  margin: 0 auto;
+.car-item__top {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .car-item__name {
+  margin: 0;
+  margin-left: 10px;
+  position: relative;
   font-size: 14px;
   font-weight: bold;
-  color:rgb(255, 145, 0);
+  text-transform: uppercase;
+  color:rgb(255, 145, 0); 
 }
 
 .car-item__buttons {
@@ -51,15 +66,45 @@
   border-radius: 3px;
 }
 
+.car-item__btn--edit {
+  background-color:rgb(6, 100, 6);
+  color: #fff;
+}
+
+.car-item__btn--remove {
+  background-color: rgb(201, 21, 21);
+  color: #fff;
+}
+
+.car-item__btn--start,
+.car-item__btn--stop {
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid rgb(255, 145, 0);
+  color: rgb(255, 145, 0);
+}
+
+.car-item__btn--start:focus,
+.car-item__btn--stop:focus,
+.car-item__btn--start:hover,
+.car-item__btn--stop:hover {
+  transition: all 0.3s ease;
+  background-color: rgb(255, 145, 0);
+  color: #0a0211;
+  border: #0a0211;
+}
+
 .car-image {
   width: 120px;
   height: auto;
+  margin-left: 10px;
 }
 
 .flag-image {
   width: 46px;
   height: auto;
-  margin-right: 140px;
+  margin-right: 12%;
 }
 
 .car-item__track {
