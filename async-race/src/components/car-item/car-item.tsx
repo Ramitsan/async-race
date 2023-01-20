@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { ICar } from "../../interfaces";
 import { CarImage, FlagImage } from '../svg-component/svg-component';
 import './car-item.css';
+import { CarState } from '../garage/carstate';
 
 type CarItemProps = {
   data: ICar;
+  carState: CarState;
+  onStart: () => void;
 }
 
-export default function CarItem({ data }: CarItemProps) {
-  const[animate, setAnimate] = useState(false);
+export default function CarItem({ data, carState, onStart }: CarItemProps) {
+ 
   return (
     <div className="car-item">
       <div className="car-item__wrapper">
@@ -22,7 +25,7 @@ export default function CarItem({ data }: CarItemProps) {
 
             <div className="car-item__button-wrapper">
               <button className="btn car-item__btn car-item__btn--start"
-              onClick={() => {setAnimate(true)}}>Start</button>
+              onClick={() => {onStart()}}>Start</button>
               <button className="btn car-item__btn car-item__btn--stop">Stop</button>
             </div>
           </div>
@@ -31,7 +34,7 @@ export default function CarItem({ data }: CarItemProps) {
         </div>
 
         <div className="car-item__track">
-          <CarImage className={"car-image" + (animate ? " car-image-finish" : "")} style={{ fill: data.color }} />
+          <CarImage className={"car-image" + (carState === CarState.animate ? " car-image-finish" : "")} style={{ fill: data.color }} />
           <FlagImage className="flag-image" style={{ fill: '#f00' }} />
         </div>
       </div>
