@@ -5,10 +5,6 @@
   flex-direction: column;
   justify-content: flex-end;
   background-color: #0a0211;
-  /* background-image: url('../../assets/night-city.png'), url('../../assets/sky-night.png');
-  background-size: 310px auto, 350px 135px;
-  background-repeat: repeat-x;
-  background-position: center 30px, center top; */
 }
 
 .car-item__wrapper {
@@ -99,12 +95,19 @@
   width: 120px;
   height: auto;
   margin-left: 10px;
+  position: relative;  
+  left: 0;
+  transition: left 1s linear;
+}
+
+.car-image-finish {
+  left: calc(100% - 120px);
 }
 
 .flag-image {
   width: 46px;
   height: auto;
-  margin-right: 12%;
+  margin-right: 120px;
 }
 
 .car-item__track {
