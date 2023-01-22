@@ -27,3 +27,18 @@ export const deleteCar = (id: number) => {
 export const updateCar = (id: number, name: string, color: string) => {
     return fetch(`${garage}/${id}`, {method: 'PUT', headers: {'Content-Type': 'application/json'},  body: JSON.stringify({name, color})}).then(res => res.json());
 }
+
+export const startEngine = (id: number) => {
+    return fetch(`${engine}?id=${id}&status=started`, {method: 'PATCH'}).then(res => res.json())
+}
+
+export const stopEngine = (id: number) => {
+    return fetch(`${engine}?id=${id}&status=stoped`, {method: 'PATCH'})
+}
+
+export const switchEngine = (id: number) => {
+    return fetch(`${engine}?id=${id}&status=drive`, {method: 'PATCH'}).then(res => ({
+        500: 'broken',
+        200: 'finished'
+    })[res.status])
+}

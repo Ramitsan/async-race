@@ -3,11 +3,11 @@ import { ICar } from "../../interfaces";
 import { CarImage, FlagImage } from '../svg-component/svg-component';
 import '../../style.css';
 import './car-item.css';
-import { CarState } from '../garage/carstate';
+import { CarState, ICarState } from '../garage/carstate';
 
 type CarItemProps = {
   data: ICar;
-  carState: CarState;
+  carState: ICarState;
   onStart: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -37,7 +37,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete }: C
         </div>
 
         <div className="car-item__track">
-          <CarImage className={"car-image" + (carState === CarState.animate ? " car-image-finish" : "")} style={{ fill: data.color }} />
+          <CarImage className={"car-image" + (carState.name !== CarState.initial ? " car-image-finish" : "")} style={{ fill: data.color, animationDuration: `${carState.time}ms`, animationPlayState: carState.name === CarState.broken? 'paused' : 'running' }} />
           <FlagImage className="flag-image" style={{ fill: '#f00' }} />
         </div>
       </div>

@@ -91,17 +91,27 @@
   border: 1px solid #0a0211;
 }
 
+@keyframes moveCar {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 120px)
+  }
+}
+
 .car-image {
   width: 120px;
   height: auto;
   margin-left: 10px;
   position: relative;  
   left: 0;
-  transition: left 1s linear;
+  /* transition: left 1s linear; */  
 }
 
 .car-image-finish {
-  left: calc(100% - 120px);
+  animation: moveCar linear;
+  animation-fill-mode: forwards;
 }
 
 .flag-image {
