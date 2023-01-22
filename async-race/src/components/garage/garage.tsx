@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCars, createCar, updateCar } from "../../api/api";
+import { getCars, createCar, updateCar, deleteCar } from "../../api/api";
 import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
@@ -52,7 +52,10 @@ export default function Garage() {
           setOpenPopup(true)
         }} carState={it.state} onStart={() => {
           setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? CarState.animate : item.state })));
-        }} />)}</div>
+        }} 
+        onDelete={
+          () => deleteCar(it.data.id).then(() => getCars(page, limit).then((cars: Array<ICar>) => setCars(cars.map(it => ({ data: it, state: CarState.initial })))))
+        } />)}</div>
     </div>
   )
 }

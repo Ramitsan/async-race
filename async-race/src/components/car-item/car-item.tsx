@@ -10,9 +10,10 @@ type CarItemProps = {
   carState: CarState;
   onStart: () => void;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
-export default function CarItem({ data, carState, onStart, onEdit }: CarItemProps) {
+export default function CarItem({ data, carState, onStart, onEdit, onDelete }: CarItemProps) {
  
   return (
     <div className="car-item">
@@ -22,7 +23,7 @@ export default function CarItem({ data, carState, onStart, onEdit }: CarItemProp
           <div className="car-item__buttons">
             <div className="car-item__button-wrapper">
               <button className="btn car-item__btn car-item__btn--edit" onClick={() => onEdit()}>Edit</button>
-              <button className="btn car-item__btn car-item__btn--remove">Remove</button>
+              <button className="btn car-item__btn car-item__btn--remove" onClick={() => onDelete()}>Remove</button>
             </div>
 
             <div className="car-item__button-wrapper">
