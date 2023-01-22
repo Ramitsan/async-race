@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ICar } from "../../interfaces";
 import { CarImage, FlagImage } from '../svg-component/svg-component';
+import '../../style.css';
 import './car-item.css';
 import { CarState } from '../garage/carstate';
 
@@ -8,9 +9,10 @@ type CarItemProps = {
   data: ICar;
   carState: CarState;
   onStart: () => void;
+  onEdit: () => void;
 }
 
-export default function CarItem({ data, carState, onStart }: CarItemProps) {
+export default function CarItem({ data, carState, onStart, onEdit }: CarItemProps) {
  
   return (
     <div className="car-item">
@@ -19,7 +21,7 @@ export default function CarItem({ data, carState, onStart }: CarItemProps) {
          
           <div className="car-item__buttons">
             <div className="car-item__button-wrapper">
-              <button className="btn car-item__btn car-item__btn--edit">Edit</button>
+              <button className="btn car-item__btn car-item__btn--edit" onClick={() => onEdit()}>Edit</button>
               <button className="btn car-item__btn car-item__btn--remove">Remove</button>
             </div>
 
