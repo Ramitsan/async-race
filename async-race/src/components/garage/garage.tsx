@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCars } from "../../api/api";
+import { getCars, createCar,updateCar } from "../../api/api";
 import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
@@ -17,13 +17,21 @@ export default function Garage() {
   useEffect(() => {
     getCars(page, limit).then((cars: Array<ICar>) => setCars(cars.map(it => ({ data: it, state: CarState.initial }))));
   }, []);
+
   return (
     <div>
       <h3>Garage</h3>
       {openPopup &&
       <EditPopup selectedCarData={selectedCar === null ? {id: null, name: '', color: 'black'} : cars.find(it => selectedCar === it.data.id).data} 
-        onOk={(result) => {console.log(result); setOpenPopup(false)}} 
+        onOk={(result) => {console.log(result); setOpenPopup(false) 
+        // обновление элемента машины
+        if(result.id === null) {
+          createCar(result.name, result.color)
+        } else {
+          updateCar(result.id, result.name, result.color)
+        } }} 
         onCancel={() => { setOpenPopup(false)}} 
+        
       />}
       <button onClick={() => {
         setSelectedCar(null);
@@ -35,8 +43,10 @@ export default function Garage() {
       }}>Race</button>
 
       <button>Reset</button>
-      
-      <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data} onEdit={() => {
+
+      <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data} 
+      // добавление новой машины
+      onEdit={() => {
         setSelectedCar(it.data.id);
         setOpenPopup(true)
       }} carState={it.state} onStart={() => {

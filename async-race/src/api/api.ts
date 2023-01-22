@@ -15,11 +15,15 @@ export const getCar = (id: number) => {
 };
 
 // create car
-export const createCar = () => {
-    return fetch(garage, { method: 'POST', headers: { 'Content-Type': 'application/json' }, }).then(res => res.json());
+export const createCar = (name: string, color: string) => {
+    return fetch(garage, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({name, color})}).then(res => res.json());
 };
 
 // delete car
 export const deleteCar = (id: number) => {
     return fetch(`${garage}/${id}`, { method: 'DELETE' }).then(res => res.json());
 };
+
+export const updateCar = (id: number, name: string, color: string) => {
+    return fetch(`${garage}/${id}`, {method: 'PUT', headers: {'Content-Type': 'application/json'},  body: JSON.stringify({name, color})}).then(res => res.json());
+}
