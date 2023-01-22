@@ -4,6 +4,7 @@ import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
 import { CarState } from './carstate';
+import { createRandomCars } from './create-random-cars';
 
 export default function Garage() {
   const [cars, setCars] = useState<Array<{ data: ICar, state: CarState }>>([]);
@@ -21,6 +22,7 @@ export default function Garage() {
   return (
     <div>
       <h3>Garage</h3>
+      <button onClick={() => createRandomCars().then(() => getCars(page, limit).then((cars: Array<ICar>) => setCars(cars.map(it => ({ data: it, state: CarState.initial })))))}>Create 100 cars</button>
       {openPopup &&
         <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
           onOk={(result) => {
