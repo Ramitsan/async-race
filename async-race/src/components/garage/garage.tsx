@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine } from "../../api/api";
+import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine } from "../../api/api";
 import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
@@ -40,6 +40,7 @@ export default function Garage() {
           }}
           onCancel={() => { setOpenPopup(false)}}
         />}
+
       <button onClick={() => {
         setSelectedCar(null);
         setOpenPopup(true)
@@ -51,16 +52,20 @@ export default function Garage() {
 
       <button>Reset</button>
 
-      <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data}
+      <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data} carState={it.state}
         // добавление новой машины
         onEdit={() => {
           setSelectedCar(it.data.id);
           setOpenPopup(true)
-        }} carState={it.state} onStart={() => {
+        }}  
+        onStart={() => {
+          setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? {name: CarState.started} : item.state })));
           startEngine(it.data.id).then(res => {
+            console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'animate')
             const time = res.distance / res.velocity;
             setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? {name: CarState.animate, time: time} : item.state })));
             switchEngine(it.data.id).then(res => {
+              console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'finished')
               if(res === 'broken') {
                 setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? {name: CarState.broken} : item.state })));
               } else if(res === 'finished') {
@@ -69,9 +74,18 @@ export default function Garage() {
             })
           })
         }} 
+        onStop={() => {
+          setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? {name: CarState.stoped} : item.state })));
+          stopEngine(it.data.id).then(() => {
+            console.log('stoped');
+            setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? {name: CarState.initial} : item.state })))
+          }
+         )
+        }}
         onDelete={
-          () => deleteCar(it.data.id).then(() =>updateCars())
-        } />)}</div>
+          () => deleteCar(it.data.id).then(() => updateCars())
+        } />)}
+        </div>
     </div>
   )
 }

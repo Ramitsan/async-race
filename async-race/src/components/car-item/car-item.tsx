@@ -11,10 +11,10 @@ type CarItemProps = {
   onStart: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  onStop: () => void;
 }
 
-export default function CarItem({ data, carState, onStart, onEdit, onDelete }: CarItemProps) {
- 
+export default function CarItem({ data, carState, onStart, onEdit, onDelete, onStop }: CarItemProps) { 
   return (
     <div className="car-item">
       <div className="car-item__wrapper">
@@ -29,7 +29,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete }: C
             <div className="car-item__button-wrapper">
               <button className="btn car-item__btn car-item__btn--start"
               onClick={() => {onStart()}}>Start</button>
-              <button className="btn car-item__btn car-item__btn--stop">Stop</button>
+              <button className="btn car-item__btn car-item__btn--stop" onClick={() => onStop()}>Stop</button>
             </div>
           </div>
 
@@ -37,7 +37,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete }: C
         </div>
 
         <div className="car-item__track">
-          <CarImage className={"car-image" + (carState.name !== CarState.initial ? " car-image-finish" : "")} style={{ fill: data.color, animationDuration: `${carState.time}ms`, animationPlayState: carState.name === CarState.broken? 'paused' : 'running' }} />
+          <CarImage className={"car-image" + ((carState.name !== CarState.initial && carState.name !== CarState.started)  ? " car-image-finish" : "")} style={{ fill: data.color, animationDuration: `${carState.time}ms`, animationPlayState: carState.name === CarState.broken? 'paused' : 'running' }} />
           <FlagImage className="flag-image" style={{ fill: '#f00' }} />
         </div>
       </div>
