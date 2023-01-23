@@ -32,22 +32,7 @@ export default function Garage() {
         <div className="garage__buttons">
           <button className="btn garage__button garage__button--create100"
             onClick={() => createRandomCars().then(() => updateCars())}>Create 100 cars
-          </button>
-
-          {openPopup &&
-            <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
-              onOk={(result) => {
-                setOpenPopup(false);
-                // создание новой машины или обновление уже имеющейся
-                // в зависимости от id 
-                if (result.id === null) {
-                  createCar(result.name, result.color).then(() => updateCars());
-                } else {
-                  updateCar(result.id, result.name, result.color).then(() => updateCars());
-                }
-              }}
-              onCancel={() => { setOpenPopup(false) }}
-            />}
+          </button>    
 
           <button className="btn garage__button garage__button--add"
             onClick={() => {
@@ -62,6 +47,21 @@ export default function Garage() {
 
           <button className="btn garage__button garage__button--reset">Reset</button>
         </div>
+
+        {openPopup &&
+            <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
+              onOk={(result) => {
+                setOpenPopup(false);
+                // создание новой машины или обновление уже имеющейся
+                // в зависимости от id 
+                if (result.id === null) {
+                  createCar(result.name, result.color).then(() => updateCars());
+                } else {
+                  updateCar(result.id, result.name, result.color).then(() => updateCars());
+                }
+              }}
+              onCancel={() => { setOpenPopup(false) }}
+            />}
 
         <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data} carState={it.state}
           onEdit={() => {

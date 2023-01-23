@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ICar } from "../../interfaces";
+import '../../style.css';
+import './edit-popup.css';
 
 type EditPopupProps = {
   selectedCarData: ICar;
@@ -19,11 +21,22 @@ export default function EditPopup({ selectedCarData, onOk, onCancel }: EditPopup
   }, [selectedCarData.color]);
 
   return (
-    <div>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-      <button onClick={() => { onOk({ id: selectedCarData.id, name: name, color: color }) }}>Ok</button>
-      <button onClick={() => onCancel()}>Cancel</button>
+    <div className="edit-popup">
+      <p className="edit-popup__block">
+        <label className="edit-popup__label" htmlFor="car-name">Enter car name</label>
+        <input className="edit-popup__input edit-popup__input--name" type="text" id="car-name" value={name} onChange={(e) => setName(e.target.value)} />
+      </p>
+
+      <p className="edit-popup__block">
+        <label className="edit-popup__label" htmlFor="car-color">Select car color</label>
+        <input className="edit-popup__input edit-popup__input--color" type="color" id="car-color" value={color} onChange={(e) => setColor(e.target.value)} />
+      </p>
+
+      <div className="edit-popup__buttons">
+        <button className="edit-popup__button" onClick={() => { onOk({ id: selectedCarData.id, name: name, color: color }) }}>Ok</button>
+        <button className="edit-popup__button" onClick={() => onCancel()}>Cancel</button>
+      </div>
+
     </div>
   )
 }

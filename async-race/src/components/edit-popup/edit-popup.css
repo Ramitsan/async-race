@@ -1,0 +1,40 @@
+.edit-popup {
+  position: fixed;
+  width: 35%;
+  padding: 20px;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  border-radius: 15px;
+  background-color: rgb(255, 145, 0);
+}
+
+.edit-popup__block {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-popup__label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0a0211;
+}
+
+.edit-popup__input--name {
+  width: 70%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 2px solid #e5e5e5;
+}
+
+.edit-popup__input--name:focus,
+.edit-popup__input--name:hover {
+  outline: 0;
+  border-color: #0a0211;
+}
+
+.edit-popup__buttons {
+  display: flex;
+  justify-content: center;
+}
