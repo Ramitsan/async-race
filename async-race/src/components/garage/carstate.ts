@@ -7,13 +7,6 @@ export enum CarState {
     started = 5
 }
 
-// export type CarState = keyof IStates;
-
-// interface IStates {
-//     initial: void;
-//     animate: number;
-// }
-
 export interface ICarState {
     name: CarState;
     time?: number;

@@ -8,8 +8,8 @@ import { createRandomCars } from './create-random-cars';
 import '../../style.css';
 import './garage.css';
 
-class CarController{
-  onChange: (state: ICarState, id: number) => void; 
+class CarController {
+  onChange: (state: ICarState, id: number) => void;
   private state: CarState;
   id: number;
 
@@ -17,10 +17,10 @@ class CarController{
     this.id = id;
     this.state = CarState.initial;
   }
-  destroy() {}
+  destroy() { }
   cancel() {
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.stoped } : item.state })));
-    if(this.state == CarState.stoped) return;
+    if (this.state == CarState.stoped) return;
     this.state = CarState.stoped;
     stopEngine(this.id).then(() => {
       console.log('stoped');
@@ -31,26 +31,24 @@ class CarController{
     )
   }
   start() {
-    if(this.state !== CarState.initial) return;
+    if (this.state !== CarState.initial) return;
     this.state = CarState.started;
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.started } : item.state })));
     return startEngine(this.id).then(res => {
-      // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'animate')
-      if(this.state !== CarState.started) return;
+      if (this.state !== CarState.started) return;
       this.state = CarState.animate;
       const time = res.distance / res.velocity;
       this.onChange({ name: CarState.animate, time: time }, this.id);
       // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.animate, time: time } : item.state })));
       return switchEngine(this.id).then(res => {
-        if(this.state !== CarState.animate) return;
-        // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'finished')
+        if (this.state !== CarState.animate) return;
         if (res === 'broken') {
           this.state = CarState.broken;
           return;
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.broken } : item.state })));
         } else if (res === 'finished') {
           this.state = CarState.finished;
-          return {state: this.state, time: time, id: this.id}
+          return { state: this.state, time: time, id: this.id }
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.finished } : item.state })));
         }
       })
@@ -70,7 +68,7 @@ class RaceController {
       controller.onChange = (state, id) => this.onChange(state, id);
       this.controllers[it.id] = controller;
     })
-     
+
   }
   start(id: number) {
     this.controllers[id].start();
@@ -78,26 +76,29 @@ class RaceController {
   cancel(id: number) {
     this.controllers[id].cancel();
   }
-  destroy() {}  
+  destroy() {}
   race() {
-    return Promise.all( Object.values(this.controllers).map(it => it.start())).then(res => res.filter(it => it).sort((a, b) => a.time - b.time)).then(res => res[0]).then(winner => {
-      return getWinner(winner.id).then(res => {
-        if (res) {
-          console.log('update', winner.id)
-          return updateWinner({id: winner.id, time: winner.time, wins: 1 });
-        } else {
-          console.log('add', winner.id)
-          return createWinner({id: winner.id, time: winner.time, wins: 1 });
-        }
-      }); 
-    });
+    return Promise.all(Object.values(this.controllers).map(it => it.start()))
+      .then(res => res.filter(it => it).sort((a, b) => a.time - b.time))
+      .then(res => res[0])
+      .then(winner => {
+        return getWinner(winner.id).then(res => {
+          if (res) {
+            console.log('update', winner.id)
+            return updateWinner({ id: winner.id, time: winner.time, wins: 1 });
+          } else {
+            console.log('add', winner.id)
+            return createWinner({ id: winner.id, time: winner.time, wins: 1 });
+          }
+        });
+      });
   }
   reset() {
     Object.values(this.controllers).map(it => it.cancel());
   }
 }
 
-export default function Garage() {   
+export default function Garage() {
   const raceController = useRef<RaceController | null>(null);
 
   const [cars, setCars] = useState<Array<{ data: ICar, state: ICarState }>>([]);
@@ -108,21 +109,22 @@ export default function Garage() {
 
   let limit: number = 7;
 
-  useEffect(()=>{
+  useEffect(() => {
     const controller = new RaceController(cars.map(it => it.data));
     raceController.current = controller;
     controller.onChange = (state, id) => {
       setCars(last => last.map(item => ({ ...item, state: item.data.id === id ? state : item.state })));
     }
-    return ()=>{
+    return () => {
       controller.destroy();
     }
   }, [cars])
 
   const updateCars = () => {
-    return getCars(page + 1, limit).then(({ cars, total}: {cars: Array<ICar>, total: number}) => {
+    return getCars(page + 1, limit).then(({ cars, total }: { cars: Array<ICar>, total: number }) => {
       setTotal(total);
-      setCars(cars.map(it => ({ data: it, state: { name: CarState.initial } })))});
+      setCars(cars.map(it => ({ data: it, state: { name: CarState.initial } })))
+    });
   }
 
   useEffect(() => {
@@ -137,7 +139,7 @@ export default function Garage() {
         <div className="garage__buttons">
           <button className="btn garage__button garage__button--create100"
             onClick={() => createRandomCars().then(() => updateCars())}>Create 100 cars
-          </button>    
+          </button>
 
           <button className="btn garage__button garage__button--add"
             onClick={() => {
@@ -147,34 +149,29 @@ export default function Garage() {
 
           <button className="btn garage__button garage__button--race"
             onClick={() => {
-              // setCars(last => last.map(it => ({ ...it, state: { name: CarState.animate } })));
               raceController.current.race();
             }}>Race</button>
 
           <button className="btn garage__button garage__button--reset"
-          onClick={() => {
-            raceController.current.reset();
-          }}>Reset</button>
+            onClick={() => {
+              raceController.current.reset();
+            }}>Reset</button>
         </div>
 
-        <button onClick={() => {
-          createWinner({id: cars[0].data.id, wins: 1, time: 1});
-        } }>Create winner</button>
-
         {openPopup &&
-            <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
-              onOk={(result) => {
-                setOpenPopup(false);
-                // создание новой машины или обновление уже имеющейся
-                // в зависимости от id 
-                if (result.id === null) {
-                  createCar(result.name, result.color).then(() => updateCars());
-                } else {
-                  updateCar(result.id, result.name, result.color).then(() => updateCars());
-                }
-              }}
-              onCancel={() => { setOpenPopup(false) }}
-            />}
+          <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
+            onOk={(result) => {
+              setOpenPopup(false);
+              // создание новой машины или обновление уже имеющейся
+              // в зависимости от id 
+              if (result.id === null) {
+                createCar(result.name, result.color).then(() => updateCars());
+              } else {
+                updateCar(result.id, result.name, result.color).then(() => updateCars());
+              }
+            }}
+            onCancel={() => { setOpenPopup(false) }}
+          />}
 
         <div>{cars.map((it) => <CarItem key={it.data.id} data={it.data} carState={it.state}
           onEdit={() => {
@@ -192,8 +189,8 @@ export default function Garage() {
           }
         />)}
         </div>
-        <div className="pagination">
-          {new Array(Math.ceil(total / limit)).fill(null).map((it, index) => <button onClick={() => setPage(index)}>{index+1}</button>)}
+        <div className="garage__pagination">
+          {new Array(Math.ceil(total / limit)).fill(null).map((it, index) => <button onClick={() => setPage(index)}>{index + 1}</button>)}
         </div>
       </div>
     </div>
