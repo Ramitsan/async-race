@@ -8,30 +8,47 @@ import { createRandomCars } from './create-random-cars';
 import '../../style.css';
 import './garage.css';
 
-class RaceController{
+class CarController{
   onChange: (state: ICarState, id: number) => void; 
-  constructor() {}
+  private state: CarState;
+  id: number;
+
+  constructor(id: number) {
+    this.id = id;
+    this.state = CarState.initial;
+  }
   destroy() {}
-  cancel(carData: ICar) {
+  cancel() {
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.stoped } : item.state })));
-    stopEngine(carData.id).then(() => {
+    if(this.state == CarState.stoped) return;
+    this.state = CarState.stoped;
+    stopEngine(this.id).then(() => {
       console.log('stoped');
+      this.state = CarState.initial;
+      this.onChange({ name: CarState.initial }, this.id);
       // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.initial } : item.state })))
     }
     )
   }
-  start(carData: ICar) {
+  start() {
+    if(this.state !== CarState.initial) return;
+    this.state = CarState.started;
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.started } : item.state })));
-    startEngine(carData.id).then(res => {
+    startEngine(this.id).then(res => {
       // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'animate')
+      if(this.state !== CarState.started) return;
+      this.state = CarState.animate;
       const time = res.distance / res.velocity;
-      this.onChange({ name: CarState.animate, time: time }, carData.id);
+      this.onChange({ name: CarState.animate, time: time }, this.id);
       // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.animate, time: time } : item.state })));
-      switchEngine(carData.id).then(res => {
+      switchEngine(this.id).then(res => {
+        if(this.state !== CarState.animate) return;
         // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'finished')
         if (res === 'broken') {
+          this.state = CarState.broken;
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.broken } : item.state })));
         } else if (res === 'finished') {
+          this.state = CarState.finished;
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.finished } : item.state })));
         }
       })
@@ -39,20 +56,34 @@ class RaceController{
   }
 }
 
+class RaceController {
+  cars: ICar[];
+  controllers: Record<number, CarController> = {};
+  onChange: (state: ICarState, id: number) => void;
+
+  constructor(cars: Array<ICar>) {
+    this.cars = cars;
+    cars.map(it => {
+      const controller = new CarController(it.id);
+      controller.onChange = (state, id) => this.onChange(state, id);
+      this.controllers[it.id] = controller;
+    })
+     
+  }
+  start(id: number) {
+    this.controllers[id].start();
+  }
+  cancel(id: number) {
+    this.controllers[id].cancel();
+  }
+  destroy() {}  
+}
+
 export default function Garage() {  
  
     const raceController = useRef<RaceController | null>(null);
     // const [state, setState] = useState([]);
-    useEffect(()=>{
-      const controller = new RaceController();
-      raceController.current = controller;
-      controller.onChange = (state, id) => {
-        setCars(last => last.map(item => ({ ...item, state: item.data.id === id ? state : item.state })));
-      }
-      return ()=>{
-        controller.destroy();
-      }
-    }, [])
+
     
     // return (
     //   <>
@@ -70,6 +101,17 @@ export default function Garage() {
   const [cars, setCars] = useState<Array<{ data: ICar, state: ICarState }>>([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
+
+  useEffect(()=>{
+    const controller = new RaceController(cars.map(it => it.data));
+    raceController.current = controller;
+    controller.onChange = (state, id) => {
+      setCars(last => last.map(item => ({ ...item, state: item.data.id === id ? state : item.state })));
+    }
+    return ()=>{
+      controller.destroy();
+    }
+  }, [cars])
 
   let page: number = 1;
   let limit: number = 100;
@@ -127,7 +169,7 @@ export default function Garage() {
             setOpenPopup(true)
           }}
           onStart={() => {
-            raceController.current.start(it.data);
+            raceController.current.start(it.data.id);
             // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.started } : item.state })));
             // startEngine(it.data.id).then(res => {
             //   console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'animate')
@@ -144,7 +186,7 @@ export default function Garage() {
             // })
           }}
           onStop={() => {
-            raceController.current.cancel(it.data);
+            raceController.current.cancel(it.data.id);
             // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.stoped } : item.state })));
             // stopEngine(it.data.id).then(() => {
             //   console.log('stoped');
