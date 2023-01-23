@@ -6,7 +6,13 @@ const winners = `${baseURL}/winners`;
 
 // get cars
 export const getCars = (page: number, limit: number) => {
-    return fetch(`${garage}?_page=${page}&_limit=${limit}`).then(res => res.json());
+    return fetch(`${garage}?_page=${page}&_limit=${limit}`).then(res => {
+        return res.json().then(cars => {
+            return {total: +res.headers.get('X-Total-Count'),
+                cars: cars}
+        })
+        
+    });
 };
 
 // get one car
@@ -33,7 +39,7 @@ export const startEngine = (id: number) => {
 }
 
 export const stopEngine = (id: number) => {
-    return fetch(`${engine}?id=${id}&status=stoped`, {method: 'PATCH'})
+    return fetch(`${engine}?id=${id}&status=stopped`, {method: 'PATCH'})
 }
 
 export const switchEngine = (id: number) => {

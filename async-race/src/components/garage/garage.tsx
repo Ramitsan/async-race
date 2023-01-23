@@ -93,6 +93,8 @@ export default function Garage() {
   const [cars, setCars] = useState<Array<{ data: ICar, state: ICarState }>>([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(()=>{
     const controller = new RaceController(cars.map(it => it.data));
@@ -105,21 +107,23 @@ export default function Garage() {
     }
   }, [cars])
 
-  let page: number = 1;
-  let limit: number = 100;
+  // let page: number = 1;
+  let limit: number = 7;
 
   const updateCars = () => {
-    return getCars(page, limit).then((cars: Array<ICar>) => setCars(cars.map(it => ({ data: it, state: { name: CarState.initial } }))));
+    return getCars(page + 1, limit).then(({ cars, total}: {cars: Array<ICar>, total: number}) => {
+      setTotal(total);
+      setCars(cars.map(it => ({ data: it, state: { name: CarState.initial } })))});
   }
 
   useEffect(() => {
     updateCars();
-  }, []);
+  }, [page]);
 
   return (
     <div className="garage">
       <div className="garage__wrapper">
-        <h3 className="garage__title">Garage <span className="garage__car-count">({cars.length})</span></h3>
+        <h3 className="garage__title">Garage <span className="garage__car-count">({total})</span></h3>
 
         <div className="garage__buttons">
           <button className="btn garage__button garage__button--create100"
@@ -174,6 +178,9 @@ export default function Garage() {
             () => deleteCar(it.data.id).then(() => updateCars())
           }
         />)}
+        </div>
+        <div className="pagination">
+          {new Array(Math.ceil(total / limit)).fill(null).map((it, index) => <button onClick={() => setPage(index)}>{index+1}</button>)}
         </div>
       </div>
     </div>
