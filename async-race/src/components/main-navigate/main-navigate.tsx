@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import '../../style.css';
+import './main-navigate.css';
 
 type MainNavigateProps = {
   activePage: string;
@@ -8,11 +10,11 @@ type MainNavigateProps = {
 export default function MainNavigate({activePage, onNavigate}: MainNavigateProps ) {
   return (
     <div className="main-navigate">
-      <button className="main-navigate__button main-navigate__button--garage"
+      <button className="btn main-navigate__button main-navigate__button--garage"
         onClick={() => {
           onNavigate('garage');
         }}>To garage</button>
-      <button className="main-navigate__button main-navigate__button--winners"
+      <button className="btn main-navigate__button main-navigate__button--winners"
         onClick={() => {
           onNavigate('winners');
         }}>To winners</button>
