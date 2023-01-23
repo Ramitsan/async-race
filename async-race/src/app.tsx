@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ICar } from './interfaces';
-import { getCars } from './api/api';
 import Garage from './components/garage/garage';
 import Winners from './components/winners/winners';
 import MainNavigate from './components/main-navigate/main-navigate';
@@ -21,6 +19,4 @@ export function App() {
       {React.createElement(routes[activePage as keyof typeof routes])}
     </div>
   )
-
 }
-

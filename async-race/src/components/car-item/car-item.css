@@ -105,8 +105,7 @@
   height: auto;
   margin-left: 10px;
   position: relative;  
-  left: 0;
-  /* transition: left 1s linear; */  
+  left: 0;  
 }
 
 .car-image-finish {
