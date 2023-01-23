@@ -1,8 +1,13 @@
+import { ICar, IWinner } from "../interfaces";
+
 const baseURL = 'http://localhost:3000';
 
 const garage = `${baseURL}/garage`;
 const engine = `${baseURL}/engine`;
 const winners = `${baseURL}/winners`;
+
+type SortType = 'id'|'wins'|'time';
+type OrderType = 'ASC'|'DESC';
 
 // get cars
 export const getCars = (page: number, limit: number) => {
@@ -47,4 +52,30 @@ export const switchEngine = (id: number) => {
         500: 'broken',
         200: 'finished'
     })[res.status])
+}
+
+export const getWinners = (page?: number, limit?: number, sort?: SortType, order?: OrderType) => {
+    return fetch(winners, { method: 'GET'}).then(res => res.json());
+}
+
+export const createWinner = (car: IWinner) => {
+    return fetch(winners, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(car)}).then(res => res.json());
+}
+
+export const getWinner = (id: number) => {
+    return fetch(`${winners}/${id}`).then(res => {
+        if(res.status === 200) {
+            return res.json();
+        } else {
+            return null;
+        }
+    });
+}
+
+export const deleteWinner = (id: number) => {
+    return fetch(`${winners}/${id}`, { method: 'DELETE' }).then(res => res.json());
+}
+
+export const updateWinner = (car: IWinner) => {
+    return fetch(`${winners}/${car.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(car)}).then(res => res.json());
 }

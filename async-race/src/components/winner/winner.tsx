@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { IWinner } from "../../interfaces";
 
-export default function Winner() {
+type WinnerProps = {
+    data: IWinner;
+}
+
+export default function Winner({data}: WinnerProps) {
     return (
-        <div></div>
+        <div>
+            <span>{data.id}</span>
+        </div>
     )
 }

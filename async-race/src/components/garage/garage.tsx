@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine } from "../../api/api";
+import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine, createWinner, getWinner, updateWinner } from "../../api/api";
 import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
@@ -34,21 +34,23 @@ class CarController{
     if(this.state !== CarState.initial) return;
     this.state = CarState.started;
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.started } : item.state })));
-    startEngine(this.id).then(res => {
+    return startEngine(this.id).then(res => {
       // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'animate')
       if(this.state !== CarState.started) return;
       this.state = CarState.animate;
       const time = res.distance / res.velocity;
       this.onChange({ name: CarState.animate, time: time }, this.id);
       // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.animate, time: time } : item.state })));
-      switchEngine(this.id).then(res => {
+      return switchEngine(this.id).then(res => {
         if(this.state !== CarState.animate) return;
         // console.log(cars.find(jt => jt.data.id == it.data.id).state.name, 'finished')
         if (res === 'broken') {
           this.state = CarState.broken;
+          return;
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.broken } : item.state })));
         } else if (res === 'finished') {
           this.state = CarState.finished;
+          return {state: this.state, time: time, id: this.id}
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.finished } : item.state })));
         }
       })
@@ -78,23 +80,33 @@ class RaceController {
   }
   destroy() {}  
   race() {
-    Object.values(this.controllers).map(it => it.start());
+    return Promise.all( Object.values(this.controllers).map(it => it.start())).then(res => res.filter(it => it).sort((a, b) => a.time - b.time)).then(res => res[0]).then(winner => {
+      return getWinner(winner.id).then(res => {
+        if (res) {
+          console.log('update', winner.id)
+          return updateWinner({id: winner.id, time: winner.time, wins: 1 });
+        } else {
+          console.log('add', winner.id)
+          return createWinner({id: winner.id, time: winner.time, wins: 1 });
+        }
+      }); 
+    });
   }
   reset() {
     Object.values(this.controllers).map(it => it.cancel());
   }
 }
 
-export default function Garage() {  
- 
-    const raceController = useRef<RaceController | null>(null);
-    // const [state, setState] = useState([]);
+export default function Garage() {   
+  const raceController = useRef<RaceController | null>(null);
 
   const [cars, setCars] = useState<Array<{ data: ICar, state: ICarState }>>([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
+
+  let limit: number = 7;
 
   useEffect(()=>{
     const controller = new RaceController(cars.map(it => it.data));
@@ -106,9 +118,6 @@ export default function Garage() {
       controller.destroy();
     }
   }, [cars])
-
-  // let page: number = 1;
-  let limit: number = 7;
 
   const updateCars = () => {
     return getCars(page + 1, limit).then(({ cars, total}: {cars: Array<ICar>, total: number}) => {
@@ -147,6 +156,10 @@ export default function Garage() {
             raceController.current.reset();
           }}>Reset</button>
         </div>
+
+        <button onClick={() => {
+          createWinner({id: cars[0].data.id, wins: 1, time: 1});
+        } }>Create winner</button>
 
         {openPopup &&
             <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
