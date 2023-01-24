@@ -15,7 +15,6 @@ export default function Winner({ data, itemNumber }: WinnerProps) {
   const [carData, setCarData] = useState<ICar | null>(null);
   useEffect(() => {
     getCar(data.id).then(res => {
-      console.log(res);
       setCarData(res);
     });
   }, []);

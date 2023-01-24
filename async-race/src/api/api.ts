@@ -69,7 +69,7 @@ export const createWinner = (car: IWinner) => {
     return fetch(winners, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(car)}).then(res => res.json());
 }
 
-export const getWinner = (id: number) => {
+export const getWinner = (id: number): Promise<IWinner | null> => {
     return fetch(`${winners}/${id}`).then(res => {
         if(res.status === 200) {
             return res.json();

@@ -44,10 +44,12 @@ class CarController {
         if (this.state !== CarState.animate) return;
         if (res === 'broken') {
           this.state = CarState.broken;
+          this.onChange({ name: CarState.broken}, this.id);
           return;
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.broken } : item.state })));
         } else if (res === 'finished') {
           this.state = CarState.finished;
+          this.onChange({ name: CarState.finished }, this.id);
           return { state: this.state, time: time, id: this.id }
           // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.finished } : item.state })));
         }
@@ -80,12 +82,16 @@ class RaceController {
   race() {
     return Promise.all(Object.values(this.controllers).map(it => it.start()))
       .then(res => res.filter(it => it).sort((a, b) => a.time - b.time))
-      .then(res => res[0])
+      .then(res => {
+        console.log(res);
+        return res[0]
+      })
       .then(winner => {
+        console.log(this.cars.find(it =>(it.id === winner.id)))
         return getWinner(winner.id).then(res => {
           if (res) {
             console.log('update', winner.id)
-            return updateWinner({ id: winner.id, time: winner.time, wins: 1 });
+            return updateWinner({ id: winner.id, time: winner.time, wins: res.wins + 1 });
           } else {
             console.log('add', winner.id)
             return createWinner({ id: winner.id, time: winner.time, wins: 1 });

@@ -16,7 +16,6 @@ type CarItemProps = {
 }
 
 export default function CarItem({ data, carState, onStart, onEdit, onDelete, onStop }: CarItemProps) { 
-  console.log(data.color, isDark(data.color));
   return (
     <div className="car-item">
       <div className="car-item__wrapper">
