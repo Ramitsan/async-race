@@ -4,6 +4,7 @@ import { CarImage, FlagImage } from '../svg-component/svg-component';
 import '../../style.css';
 import './car-item.css';
 import { CarState, ICarState } from '../garage/carstate';
+import { isDark } from "../garage/create-random-cars";
 
 type CarItemProps = {
   data: ICar;
@@ -15,6 +16,7 @@ type CarItemProps = {
 }
 
 export default function CarItem({ data, carState, onStart, onEdit, onDelete, onStop }: CarItemProps) { 
+  console.log(data.color, isDark(data.color));
   return (
     <div className="car-item">
       <div className="car-item__wrapper">
@@ -37,7 +39,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete, onS
         </div>
 
         <div className="car-item__track">
-          <CarImage className={"car-image" + ((carState.name !== CarState.initial && carState.name !== CarState.started)  ? " car-image-finish" : "")} style={{ fill: data.color, animationDuration: `${carState.time}ms`, animationPlayState: carState.name === CarState.broken? 'paused' : 'running' }} />
+          <CarImage className={"car-image" + ((carState.name !== CarState.initial && carState.name !== CarState.started)  ? " car-image-finish" : "")} style={{ fill: data.color, stroke: isDark(data.color) ? '#ffffff' : 'transparent', animationDuration: `${carState.time}ms`, animationPlayState: carState.name === CarState.broken? 'paused' : 'running' }} />
           <FlagImage className="flag-image" style={{ fill: '#f00' }} />
         </div>
       </div>

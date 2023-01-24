@@ -1,12 +1,12 @@
-.winner__wrapper {
+.winner__row {
   width: 100%;
-  padding: 5px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   text-align: center;
   color: #fff;
   border: 1px dashed rgb(255, 145, 0);
+}
+
+.winner__row {
+  width: 100%;
 }
 
 .winner__number {

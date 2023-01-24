@@ -27,8 +27,22 @@ export default function Winners() {
       <div className="winners__wrapper">
         <h3 className="winners__title">Winners <span className="winners__count">({winnersTotal})</span></h3>
         <h4 className="winners__page-number">Page: {winnersPage + 1}</h4>
-      
-        {winners.map((it, index) => <Winner data={it} itemNumber={index + 1 + firstIndex} />)}
+
+        <table className="winners__table">
+          <thead>
+            <tr>
+              <td className="winners__number">№</td>
+              <td className="winners__car-image">Image of the car</td>
+              <td className="winners__car-name">Name of the car</td>
+              <td className="winners__victory-count">Wins number</td>
+              <td className="winners__best-time">Best time in seconds</td>
+            </tr>
+          </thead>
+          <tbody>
+            {winners.map((it, index) => <Winner data={it} itemNumber={index + 1 + firstIndex} />)}
+          </tbody>
+
+        </table>
 
         <div className="winners__pagination">
           {new Array(Math.ceil(winnersTotal / limitWinnersPerPage)).fill(null)

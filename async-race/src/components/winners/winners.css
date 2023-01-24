@@ -10,6 +10,31 @@
   text-align: center;
 }
 
+.winners__table {
+  width: 100%;
+  color: #fff;
+}
+
+.winners__number {
+  width: 10%;
+}
+
+.winners__car-image {
+  width: 40%;
+}
+
+.winners__car-name {
+  width: 30%;
+}
+
+.winners__victory-count {
+  width: 15%;
+}
+
+.winners__best-time {
+  width: 10%;
+}
+
 .winners__page-number {
   font-size: 24px;
   color: rgb(255, 145, 0);

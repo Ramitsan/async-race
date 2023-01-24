@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { IWinner } from "../../interfaces";
+import { getCar } from "../../api/api";
+import { ICar, IWinner } from "../../interfaces";
+import { CarImage } from '../svg-component/svg-component';
 import '../../style.css';
 import './winner.css';
+import { isDark } from "../garage/create-random-cars";
 
 type WinnerProps = {
   data: IWinner;
@@ -9,15 +12,21 @@ type WinnerProps = {
 }
 
 export default function Winner({ data, itemNumber }: WinnerProps) {
+  const [carData, setCarData] = useState<ICar | null>(null);
+  useEffect(() => {
+    getCar(data.id).then(res => {
+      console.log(res);
+      setCarData(res);
+    });
+  }, []);
+
   return (
-    <div className="winner">
-      <div className="winner__wrapper">
-        <div className="winner__number">{itemNumber}</div>
-        <div className="winner__car-image"></div>
-        <div className="winner__car-name"></div>
-        <div className="winner__victory-count">{data.wins}</div>
-        <div className="winner__best-time">{(data.time / 1000).toFixed(2)}s</div>        
-      </div>
-    </div>
+      <tr className="winner__row">
+        <td className="winner__number">{itemNumber}</td>
+        <td className="winner__car-image"><CarImage className={"car-image"} style={{ fill: carData?.color || 'transparent', stroke: carData == null ? 'transparent': (isDark(carData.color) ? '#ffffff' : 'transparent') }} />{carData?.color}</td>
+        <td className="winner__car-name">{carData?.name || 'loading...'}</td>
+        <td className="winner__victory-count">{data.wins}</td>
+        <td className="winner__best-time">{(data.time / 1000).toFixed(2)}s</td>        
+      </tr>
   )
 }

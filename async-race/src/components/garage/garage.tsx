@@ -4,7 +4,7 @@ import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
 import { ICarState, CarState } from './carstate';
-import { createRandomCars } from './create-random-cars';
+import { createRandomCars, isDark } from './create-random-cars';
 import '../../style.css';
 import './garage.css';
 
@@ -123,6 +123,7 @@ export default function Garage() {
   const updateCars = () => {
     return getCars(page + 1, limit).then(({ cars, total }: { cars: Array<ICar>, total: number }) => {
       setTotal(total);
+      console.log(cars);
       setCars(cars.map(it => ({ data: it, state: { name: CarState.initial } })))
     });
   }
@@ -160,7 +161,7 @@ export default function Garage() {
         </div>
 
         {openPopup &&
-          <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: 'black' } : cars.find(it => selectedCar === it.data.id).data}
+          <EditPopup selectedCarData={selectedCar === null ? { id: null, name: '', color: '#ff0000' } : cars.find(it => selectedCar === it.data.id).data}
             onOk={(result) => {
               setOpenPopup(false);
               // создание новой машины или обновление уже имеющейся
