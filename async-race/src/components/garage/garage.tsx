@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine, createWinner, getWinner, updateWinner, deleteWinner } from "../../api/api";
-import { ICar } from "../../interfaces";
+import { ICar, IWinner } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
 import { ICarState, CarState } from './carstate';
 import { createRandomCars, isDark } from './create-random-cars';
+import WinnerPopup from '../winner-popup/winner-popup';
 import '../../style.css';
 import './garage.css';
 
@@ -96,7 +97,13 @@ class RaceController {
             console.log('add', winner.id)
             return createWinner({ id: winner.id, time: winner.time, wins: 1 });
           }
-        });
+        }).then((res) => {
+          return {
+            ...winner,
+            ...res,
+            ...(this.cars.find(it =>(it.id === winner.id)))
+          }
+        })
       });
   }
   reset() {
@@ -117,6 +124,7 @@ export default function Garage({page, onPage}: GarageProps) {
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [total, setTotal] = useState(0);
   // const [page, setPage] = useState(0);
+  const [winnerData, setWinnerData] = useState<(ICar & IWinner) | null>(null);
 
   let limit: number = 7;
 
@@ -162,7 +170,7 @@ export default function Garage({page, onPage}: GarageProps) {
 
           <button className="btn garage__button garage__button--race"
             onClick={() => {
-              raceController.current.race();
+              raceController.current.race().then(winner => setWinnerData(winner));
             }}>Race</button>
 
           <button className="btn garage__button garage__button--reset"
@@ -210,6 +218,7 @@ export default function Garage({page, onPage}: GarageProps) {
             .map((it, index) => <button className="btn garage__pagination-button" onClick={() => onPage(index)}>{index + 1}</button>)
           }            
         </div>
+        {winnerData && <WinnerPopup winnerData={winnerData} onCancel={() => setWinnerData(null)}/>}
       </div>
     </div>
   )

@@ -65,7 +65,7 @@ export const getWinners = (page?: number, limit?: number, sort?: SortType, order
     });
 }
 
-export const createWinner = (car: IWinner) => {
+export const createWinner = (car: IWinner): Promise<IWinner> => {
     return fetch(winners, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(car)}).then(res => res.json());
 }
 
@@ -83,6 +83,6 @@ export const deleteWinner = (id: number) => {
     return fetch(`${winners}/${id}`, { method: 'DELETE' }).then(res => res.json());
 }
 
-export const updateWinner = (car: IWinner) => {
+export const updateWinner = (car: IWinner): Promise<Omit<IWinner, 'id'>> => {
     return fetch(`${winners}/${car.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(car)}).then(res => res.json());
 }
