@@ -22,7 +22,7 @@ export default function Winner({ data, itemNumber }: WinnerProps) {
   return (
       <tr className="winner__row">
         <td className="winner__number">{itemNumber}</td>
-        <td className="winner__car-image"><CarImage className={"car-image"} style={{ fill: carData?.color || 'transparent', stroke: carData == null ? 'transparent': (isDark(carData.color) ? '#ffffff' : 'transparent') }} />{carData?.color}</td>
+        <td className="winner__car-image"><CarImage className={"car-image"} style={{ fill: carData?.color || 'transparent', stroke: (carData == null)  ? 'transparent': (carData.color && isDark(carData.color) ? '#ffffff' : 'transparent') }} /></td>
         <td className="winner__car-name">{carData?.name || 'loading...'}</td>
         <td className="winner__victory-count">{data.wins}</td>
         <td className="winner__best-time">{(data.time / 1000).toFixed(2)}s</td>        

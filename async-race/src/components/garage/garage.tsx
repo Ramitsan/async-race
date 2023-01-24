@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine, createWinner, getWinner, updateWinner } from "../../api/api";
+import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine, createWinner, getWinner, updateWinner, deleteWinner } from "../../api/api";
 import { ICar } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
@@ -193,7 +193,10 @@ export default function Garage() {
             raceController.current.cancel(it.data.id);
           }}
           onDelete={
-            () => deleteCar(it.data.id).then(() => updateCars())
+            () => deleteCar(it.data.id).then(() => {
+              deleteWinner(it.data.id);
+              updateCars();
+            })
           }
         />)}
         </div>
