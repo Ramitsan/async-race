@@ -27,7 +27,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete, onS
             </div>
 
             <div className="car-item__button-wrapper">
-              <button className="btn car-item__btn car-item__btn--start"
+              <button className="btn car-item__btn car-item__btn--start" 
               onClick={() => {onStart()}}>Start</button>
               <button className="btn car-item__btn car-item__btn--stop" onClick={() => onStop()}>Stop</button>
             </div>

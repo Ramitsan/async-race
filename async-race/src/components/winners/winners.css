@@ -1,0 +1,38 @@
+.winners__wrapper {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.winners__title {
+  margin: 20px 0;
+  font-size: 28px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.winners__pagination {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.winners__pagination-button {
+  min-width: 30px;
+  padding: 5px;
+  color: #0a0211;
+  background-color: rgb(255, 145, 0);
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 1px solid rgb(255, 145, 0);
+}
+
+.winners__pagination-button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.winners__pagination-button:focus,
+.winners__pagination-button:hover {
+  transition: all 0.3s ease;
+  color: rgb(255, 145, 0);
+  background-color: #0a0211;
+}
