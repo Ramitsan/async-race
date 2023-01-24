@@ -10,6 +10,12 @@
   text-align: center;
 }
 
+.winners__page-number {
+  font-size: 24px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
 .winners__pagination {
   margin-top: 10px;
   margin-bottom: 20px;

@@ -55,7 +55,14 @@ export const switchEngine = (id: number) => {
 }
 
 export const getWinners = (page?: number, limit?: number, sort?: SortType, order?: OrderType) => {
-    return fetch(winners, { method: 'GET'}).then(res => res.json());
+    // return fetch(winners, { method: 'GET'}).then(res => res.json());
+    return fetch(`${winners}?_page=${page}&_limit=${limit}`).then(res => {
+        return res.json().then(winners => {
+            return {total: +res.headers.get('X-Total-Count'),
+            winners: winners}
+        })
+        
+    });
 }
 
 export const createWinner = (car: IWinner) => {
