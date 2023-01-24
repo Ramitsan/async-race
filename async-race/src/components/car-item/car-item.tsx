@@ -19,7 +19,7 @@ export default function CarItem({ data, carState, onStart, onEdit, onDelete, onS
     <div className="car-item">
       <div className="car-item__wrapper">
         <div className="car-item__top">
-         
+      
           <div className="car-item__buttons">
             <div className="car-item__button-wrapper">
               <button className="btn car-item__btn car-item__btn--edit" onClick={() => onEdit()}>Edit</button>

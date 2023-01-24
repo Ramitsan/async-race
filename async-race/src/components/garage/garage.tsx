@@ -135,6 +135,7 @@ export default function Garage() {
     <div className="garage">
       <div className="garage__wrapper">
         <h3 className="garage__title">Garage <span className="garage__car-count">({total})</span></h3>
+        <h4 className="garage__page-number">Page: {page + 1}</h4>
 
         <div className="garage__buttons">
           <button className="btn garage__button garage__button--create100"
@@ -190,7 +191,9 @@ export default function Garage() {
         />)}
         </div>
         <div className="garage__pagination">
-          {new Array(Math.ceil(total / limit)).fill(null).map((it, index) => <button onClick={() => setPage(index)}>{index + 1}</button>)}
+          {new Array(Math.ceil(total / limit)).fill(null)
+            .map((it, index) => <button className="btn garage__pagination-button" onClick={() => setPage(index)}>{index + 1}</button>)
+          }            
         </div>
       </div>
     </div>

@@ -11,7 +11,8 @@ type EditPopupProps = {
 
 export default function EditPopup({ selectedCarData, onOk, onCancel }: EditPopupProps) {
   const [name, setName] = useState('');
-  const [color, setColor] = useState('black');
+  const [color, setColor] = useState("#ff0000");
+  
   useEffect(() => {
     setName(selectedCarData.name)
   }, [selectedCarData.name]);
