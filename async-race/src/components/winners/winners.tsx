@@ -4,10 +4,15 @@ import Winner from '../winner/winner';
 import '../../style.css';
 import './winners.css';
 
-export default function Winners() {
+type WinnersProps = {
+  page: number;
+  onPage: (page: number) => void;
+}
+
+export default function Winners({page: winnersPage, onPage}: WinnersProps) {
   const [winners, setWinners] = useState([]);
   const [winnersTotal, setWinnersTotal] = useState(0);
-  const [winnersPage, setWinnersPage] = useState(0);
+  // const [winnersPage, setWinnersPage] = useState(0);
 
   let limitWinnersPerPage = 10;
   const firstIndex = winnersPage * limitWinnersPerPage;
@@ -46,7 +51,7 @@ export default function Winners() {
 
         <div className="winners__pagination">
           {new Array(Math.ceil(winnersTotal / limitWinnersPerPage)).fill(null)
-            .map((it, index) => <button className="btn winners__pagination-button" onClick={() => setWinnersPage(index)}>{index + 1}</button>)
+            .map((it, index) => <button className="btn winners__pagination-button" onClick={() => onPage(index)}>{index + 1}</button>)
           }
         </div>
       </div>

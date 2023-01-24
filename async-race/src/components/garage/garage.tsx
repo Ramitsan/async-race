@@ -104,14 +104,19 @@ class RaceController {
   }
 }
 
-export default function Garage() {
+type GarageProps = {
+  page: number;
+  onPage: (page: number) => void;
+}
+
+export default function Garage({page, onPage}: GarageProps) {
   const raceController = useRef<RaceController | null>(null);
 
   const [cars, setCars] = useState<Array<{ data: ICar, state: ICarState }>>([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
 
   let limit: number = 7;
 
@@ -202,7 +207,7 @@ export default function Garage() {
         </div>
         <div className="garage__pagination">
           {new Array(Math.ceil(total / limit)).fill(null)
-            .map((it, index) => <button className="btn garage__pagination-button" onClick={() => setPage(index)}>{index + 1}</button>)
+            .map((it, index) => <button className="btn garage__pagination-button" onClick={() => onPage(index)}>{index + 1}</button>)
           }            
         </div>
       </div>
