@@ -16,8 +16,6 @@ export default function Winners({page: winnersPage, onPage}: WinnersProps) {
 
   let limitWinnersPerPage = 10;
   const firstIndex = winnersPage * limitWinnersPerPage;
-  // const lastIndex = winnersPage * limitWinnersPerPage;
-  // const itemsPerPage = winners.slice(firstIndex, lastIndex);
 
   useEffect(() => {
     getWinners(winnersPage + 1, limitWinnersPerPage).then(res => {
@@ -44,14 +42,14 @@ export default function Winners({page: winnersPage, onPage}: WinnersProps) {
             </tr>
           </thead>
           <tbody>
-            {winners.map((it, index) => <Winner data={it} itemNumber={index + 1 + firstIndex} />)}
+            {winners.map((it, index) => <Winner key={index} data={it} itemNumber={index + 1 + firstIndex} />)}
           </tbody>
 
         </table>
 
         <div className="winners__pagination">
           {new Array(Math.ceil(winnersTotal / limitWinnersPerPage)).fill(null)
-            .map((it, index) => <button className="btn winners__pagination-button" onClick={() => onPage(index)}>{index + 1}</button>)
+            .map((it, index) => <button className="btn winners__pagination-button" key={index} onClick={() => onPage(index)}>{index + 1}</button>)
           }
         </div>
       </div>

@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ICar, IWinner } from "../../interfaces";
 import '../../style.css';
 
-
-type EditPopupProps = {
+type WinnerPopupProps = {
   winnerData: ICar & IWinner;
   onCancel: () => void;
 }
 
-export default function WinnerPopup({ winnerData, onCancel }: EditPopupProps) {
-
+export default function WinnerPopup({ winnerData, onCancel }: WinnerPopupProps) {
   return (
     <div className="edit-popup">
       <div>
@@ -18,8 +16,7 @@ export default function WinnerPopup({ winnerData, onCancel }: EditPopupProps) {
         <p></p>
       </div>
       
-      <div className="edit-popup__buttons">
-      
+      <div className="edit-popup__buttons">      
         <button className="edit-popup__button" onClick={() => onCancel()}>Cancel</button>
       </div>
 

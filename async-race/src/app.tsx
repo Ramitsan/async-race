@@ -9,15 +9,15 @@ const routes = {
 };
 
 export function App() {
-  const [activePage, setActivePage] = useState('garage');
+  const [activePage, setActivePage] = useState<keyof typeof routes>('garage');
   const [pages, setPages] = useState({garage: 0, winners: 0});
 
   return (
     <div>
       <MainNavigate activePage={activePage} onNavigate={pageName => {
-        setActivePage(pageName);
+        setActivePage(pageName as keyof typeof routes);
       }} />
-      {React.createElement(routes[activePage as keyof typeof routes], {page: pages[activePage as keyof typeof routes], onPage: (page: number) => {setPages(last => {
+      {React.createElement(routes[activePage], {page: pages[activePage], onPage: (page: number) => {setPages(last => {
         return {
           ...last, 
           [activePage]: page

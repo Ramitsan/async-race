@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { getCars, createCar, updateCar, deleteCar, startEngine, switchEngine, stopEngine, createWinner, getWinner, updateWinner, deleteWinner } from "../../api/api";
 import { ICar, IWinner } from "../../interfaces";
 import CarItem from '../car-item/car-item';
@@ -23,8 +23,9 @@ class CarController {
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.stoped } : item.state })));
     if (this.state == CarState.stoped) return;
     this.state = CarState.stoped;
+    console.log('canceled', this.id);
     stopEngine(this.id).then(() => {
-      console.log('stoped');
+      console.log('stoped', this.id);
       this.state = CarState.initial;
       this.onChange({ name: CarState.initial }, this.id);
       // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.initial } : item.state })))
@@ -33,6 +34,7 @@ class CarController {
   }
   start() {
     if (this.state !== CarState.initial) return;
+    console.log('start', this.id);
     this.state = CarState.started;
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.started } : item.state })));
     return startEngine(this.id).then(res => {
@@ -63,8 +65,10 @@ class RaceController {
   cars: ICar[];
   controllers: Record<number, CarController> = {};
   onChange: (state: ICarState, id: number) => void;
+  state: string;
 
   constructor(cars: Array<ICar>) {
+    console.log('race controller');
     this.cars = cars;
     cars.map(it => {
       const controller = new CarController(it.id);
@@ -81,6 +85,7 @@ class RaceController {
   }
   destroy() {}
   race() {
+    this.state = 'started';
     return Promise.all(Object.values(this.controllers).map(it => it.start()))
       .then(res => res.filter(it => it).sort((a, b) => a.time - b.time))
       .then(res => {
@@ -88,6 +93,9 @@ class RaceController {
         return res[0]
       })
       .then(winner => {
+        if(!winner) {
+          return;
+        }
         console.log(this.cars.find(it =>(it.id === winner.id)))
         return getWinner(winner.id).then(res => {
           if (res) {
@@ -98,15 +106,23 @@ class RaceController {
             return createWinner({ id: winner.id, time: winner.time, wins: 1 });
           }
         }).then((res) => {
-          return {
-            ...winner,
-            ...res,
-            ...(this.cars.find(it =>(it.id === winner.id)))
+          console.log(this.state);
+          if(res && this.state == 'started') {
+            return {
+              ...winner,
+              ...res,
+              ...(this.cars.find(it =>(it.id === winner.id)))
+            }
+          } else {
+            return null;
           }
+          
         })
       });
   }
   reset() {
+    this.state = 'cancelled';
+    console.log(this.state);
     Object.values(this.controllers).map(it => it.cancel());
   }
 }
@@ -123,11 +139,13 @@ export default function Garage({page, onPage}: GarageProps) {
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [total, setTotal] = useState(0);
-  // const [page, setPage] = useState(0);
   const [winnerData, setWinnerData] = useState<(ICar & IWinner) | null>(null);
 
   let limit: number = 7;
-
+  const ids = useMemo(() => {
+    return cars.map(it => it.data.id).join(' ')
+  }, [cars]);
+  
   useEffect(() => {
     const controller = new RaceController(cars.map(it => it.data));
     raceController.current = controller;
@@ -137,7 +155,7 @@ export default function Garage({page, onPage}: GarageProps) {
     return () => {
       controller.destroy();
     }
-  }, [cars])
+  }, [ids])
 
   const updateCars = () => {
     return getCars(page + 1, limit).then(({ cars, total }: { cars: Array<ICar>, total: number }) => {
@@ -170,7 +188,10 @@ export default function Garage({page, onPage}: GarageProps) {
 
           <button className="btn garage__button garage__button--race"
             onClick={() => {
-              raceController.current.race().then(winner => setWinnerData(winner));
+              raceController.current.race().then(winner => {
+                console.log(winner);
+                setWinnerData(winner)
+              });
             }}>Race</button>
 
           <button className="btn garage__button garage__button--reset"
@@ -215,7 +236,7 @@ export default function Garage({page, onPage}: GarageProps) {
         </div>
         <div className="garage__pagination">
           {new Array(Math.ceil(total / limit)).fill(null)
-            .map((it, index) => <button className="btn garage__pagination-button" onClick={() => onPage(index)}>{index + 1}</button>)
+            .map((it, index) => <button className="btn garage__pagination-button" key={index} onClick={() => onPage(index)}>{index + 1}</button>)
           }            
         </div>
         {winnerData && <WinnerPopup winnerData={winnerData} onCancel={() => setWinnerData(null)}/>}

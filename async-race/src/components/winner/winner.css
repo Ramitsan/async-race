@@ -2,7 +2,6 @@
   width: 100%;
   text-align: center;
   color: #fff;
-  border: 1px dashed rgb(255, 145, 0);
 }
 
 .winner__row {
@@ -22,9 +21,9 @@
 }
 
 .winner__victory-count {
-  width: 15%;
+  width: 10%;
 }
 
 .winner__best-time {
-  width: 10%;
+  width: 15%;
 }
