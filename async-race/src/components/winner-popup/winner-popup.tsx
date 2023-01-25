@@ -1,6 +1,7 @@
 import React from "react";
 import { ICar, IWinner } from "../../interfaces";
 import '../../style.css';
+import './winner-popup.css';
 
 type WinnerPopupProps = {
   winnerData: ICar & IWinner;
@@ -9,15 +10,15 @@ type WinnerPopupProps = {
 
 export default function WinnerPopup({ winnerData, onCancel }: WinnerPopupProps) {
   return (
-    <div className="edit-popup">
-      <div>
-        <p>{winnerData.name}</p>
-        <p>{winnerData.time}</p>
-        <p></p>
+    <div className="winner-popup">
+      <div className="winner-popup__wrapper">
+        <p className="winner-popup__win">WIN!</p>
+        <p className="winner-popup__car"><span>Car: </span>{winnerData.name}</p>
+        <p className="winner-popup__time"><span>Time: </span>{(winnerData.time / 1000).toFixed(2)}sec</p>
       </div>
       
-      <div className="edit-popup__buttons">      
-        <button className="edit-popup__button" onClick={() => onCancel()}>Cancel</button>
+      <div className="winner-popup__buttons">      
+        <button className="btn winner-popup__button" onClick={() => onCancel()}>Cancel</button>
       </div>
 
     </div>

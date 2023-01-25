@@ -15,24 +15,11 @@
   color: #fff;
   text-align: center;
   border-collapse: collapse;
-  border-top: 0;
 }
 
 .winners__table td,
 .winners__table th {
   border: 1px dashed rgb(255, 145, 0);
-}
-
-.winners__table thead {
-  border-top: 0;
-}
-.winners__table tr td:first-child,
-.winners__table tr th:first-child {
-  border-left: 0;
-}
-.winners__table tr td:last-child,
-.winners__table tr th:last-child {
-  border-right: 0;
 }
 
 .winners__number {

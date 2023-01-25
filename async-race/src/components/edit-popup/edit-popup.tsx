@@ -34,8 +34,8 @@ export default function EditPopup({ selectedCarData, onOk, onCancel }: EditPopup
       </p>
 
       <div className="edit-popup__buttons">
-        <button className="edit-popup__button" onClick={() => { onOk({ id: selectedCarData.id, name: name, color: color }) }}>Ok</button>
-        <button className="edit-popup__button" onClick={() => onCancel()}>Cancel</button>
+        <button className="btn edit-popup__button edit-popup__button--ok" onClick={() => { onOk({ id: selectedCarData.id, name: name, color: color }) }}>Ok</button>
+        <button className="btn edit-popup__button edit-popup__button--cancel" onClick={() => onCancel()}>Cancel</button>
       </div>
 
     </div>

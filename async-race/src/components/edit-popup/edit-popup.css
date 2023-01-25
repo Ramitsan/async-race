@@ -16,7 +16,7 @@
 }
 
 .edit-popup__label {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #0a0211;
 }
@@ -26,6 +26,7 @@
   padding: 8px;
   margin-top: 8px;
   border: 2px solid #e5e5e5;
+  border-radius: 5px;
 }
 
 .edit-popup__input--name:focus,
@@ -37,4 +38,28 @@
 .edit-popup__buttons {
   display: flex;
   justify-content: center;
+}
+
+.edit-popup__button {
+  min-width: 80px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid #0a0211;
+  border-radius: 5px;
+  color: rgb(255, 145, 0);
+}
+
+.edit-popup__button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.edit-popup__button:focus,
+.edit-popup__button:hover {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #0a0211;
+  border: 1px solid #0a0211;
 }
