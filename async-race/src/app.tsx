@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Garage from './components/garage/garage';
 import Winners from './components/winners/winners';
 import MainNavigate from './components/main-navigate/main-navigate';

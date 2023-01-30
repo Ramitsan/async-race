@@ -14,7 +14,7 @@ export default function Winners({page: winnersPage, onPage}: WinnersProps) {
   const [winnersTotal, setWinnersTotal] = useState(0);
   // const [winnersPage, setWinnersPage] = useState(0);
 
-  let limitWinnersPerPage = 10;
+  const limitWinnersPerPage = 10;
   const firstIndex = winnersPage * limitWinnersPerPage;
 
   useEffect(() => {

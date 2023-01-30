@@ -7,7 +7,7 @@ type MainNavigateProps = {
   onNavigate: (pageName: string) => void;
 }
 
-export default function MainNavigate({activePage, onNavigate}: MainNavigateProps ) {
+export default function MainNavigate({ onNavigate}: MainNavigateProps ) {
   return (
     <div className="main-navigate">
       <button className="btn main-navigate__button main-navigate__button--garage"

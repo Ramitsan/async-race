@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ICar } from "../../interfaces";
 import { CarImage, FlagImage } from '../svg-component/svg-component';
 import '../../style.css';

@@ -4,7 +4,7 @@ import { ICar, IWinner } from "../../interfaces";
 import CarItem from '../car-item/car-item';
 import EditPopup from '../edit-popup/edit-popup';
 import { ICarState, CarState } from './carstate';
-import { createRandomCars, isDark } from './create-random-cars';
+import { createRandomCars } from './create-random-cars';
 import WinnerPopup from '../winner-popup/winner-popup';
 import '../../style.css';
 import './garage.css';
@@ -18,7 +18,7 @@ class CarController {
     this.id = id;
     this.state = CarState.initial;
   }
-  destroy() { }
+  destroy() {}
   cancel() {
     // setCars(last => last.map(item => ({ ...item, state: item.data.id === it.data.id ? { name: CarState.stoped } : item.state })));
     if (this.state == CarState.stoped) return;
@@ -141,7 +141,8 @@ export default function Garage({page, onPage}: GarageProps) {
   const [total, setTotal] = useState(0);
   const [winnerData, setWinnerData] = useState<(ICar & IWinner) | null>(null);
 
-  let limit: number = 7;
+  const limit = 7;
+  
   const ids = useMemo(() => {
     return cars.map(it => it.data.id).join(' ')
   }, [cars]);

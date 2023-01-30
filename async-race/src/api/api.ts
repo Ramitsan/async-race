@@ -1,4 +1,4 @@
-import { ICar, IWinner } from "../interfaces";
+import { IWinner } from "../interfaces";
 
 const baseURL = 'http://localhost:3000';
 
