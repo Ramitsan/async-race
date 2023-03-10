@@ -1,0 +1,499 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  box-sizing: border-box;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 140%;
+  background-color: #0a0211;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.btn {
+  border: 1px solid transparent;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.car-item {
+  height: 170px;
+  display: flex;
+  padding-top: 5px;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #0a0211;
+}
+
+.car-item__wrapper {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-image: url(680d8df9bac4e4b03bc2.png), url(38d85a284ad5982d8f72.png);
+  background-size: 310px auto, 350px 135px;
+  background-repeat: repeat-x;
+  background-position: center 30px, center top;
+} 
+
+.car-item__top {
+  display: flex;
+  align-items: flex-start;
+}
+
+.car-item__name {
+  margin: 0;
+  margin-left: 10px;
+  position: relative;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color:rgb(255, 145, 0); 
+}
+
+.car-item__buttons {
+  width: 130px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.car-item__button-wrapper {
+  width: 90%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.car-item__btn {
+  min-width: 55px;
+  margin-right: 5px;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.car-item__btn--edit {
+  background-color:rgb(6, 100, 6);
+  color: #fff;
+}
+
+.car-item__btn--remove {
+  background-color: rgb(201, 21, 21);
+  color: #fff;
+}
+
+.car-item__btn--start,
+.car-item__btn--stop {
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid rgb(255, 145, 0);
+  color: rgb(255, 145, 0);
+}
+
+.car-item__btn--start:focus,
+.car-item__btn--stop:focus,
+.car-item__btn--start:hover,
+.car-item__btn--stop:hover {
+  transition: all 0.3s ease;
+  background-color: rgb(255, 145, 0);
+  color: #0a0211;
+  border: 1px solid #0a0211;
+}
+
+@keyframes moveCar {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 120px)
+  }
+}
+
+.car-image {
+  width: 120px;
+  height: auto;
+  margin-left: 10px;
+  position: relative;  
+  left: 0;  
+  stroke: white;
+  stroke-width: 100px;
+}
+
+.car-image-finish {
+  animation: moveCar linear;
+  animation-fill-mode: forwards;
+}
+
+.flag-image {
+  width: 46px;
+  height: auto;
+  margin-right: 120px;
+}
+
+.car-item__track {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 3px dashed rgb(255, 145, 0);
+}
+.edit-popup {
+  position: fixed;
+  width: 35%;
+  padding: 20px;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  border-radius: 15px;
+  background-color: rgb(255, 145, 0);
+}
+
+.edit-popup__block {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-popup__label {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0a0211;
+}
+
+.edit-popup__input--name {
+  width: 70%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+}
+
+.edit-popup__input--name:focus,
+.edit-popup__input--name:hover {
+  outline: 0;
+  border-color: #0a0211;
+}
+
+.edit-popup__buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-popup__button {
+  min-width: 80px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid #0a0211;
+  border-radius: 5px;
+  color: rgb(255, 145, 0);
+}
+
+.edit-popup__button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.edit-popup__button:focus,
+.edit-popup__button:hover {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #0a0211;
+  border: 1px solid #0a0211;
+}
+.winner-popup {
+  position: fixed;
+  width: 35%;
+  padding: 20px;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  border-radius: 15px;
+  background-color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.winner-popup__win {
+  margin-top: 0;
+  color: #fff;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.winner-popup__car,
+.winner-popup__time {
+  font-size: 24px;
+  color: #0a0211;
+}
+
+.winner-popup__button {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid #0a0211;
+  border-radius: 5px;
+  color: rgb(255, 145, 0);
+}
+
+.winner-popup__button:focus,
+.winner-popup__button:hover {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #0a0211;
+  border: 1px solid #0a0211;
+}
+.garage__wrapper {
+  position: relative;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.garage__title {
+  margin: 20px 0;
+  font-size: 28px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.garage__page-number {
+  font-size: 24px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.garage__car-count {
+  font-size: 24px;
+  color: rgb(255, 145, 0);
+}
+
+.garage__buttons {
+  width: 45%;
+  margin: 0 auto;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.garage__button {
+  min-width: 70px;
+  padding: 7px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: rgb(255, 145, 0);
+  border: 1px solid rgb(255, 145, 0);
+  border-radius: 5px;
+  color: #0a0211;
+}
+
+.garage__button:focus,
+.garage__button:hover {
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  color: rgb(255, 145, 0);
+  border: 1px solid rgb(255, 145, 0);
+}
+
+.garage__pagination {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.garage__pagination-button {
+  min-width: 30px;
+  padding: 5px;
+  color: #0a0211;
+  background-color: rgb(255, 145, 0);
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 1px solid rgb(255, 145, 0);
+}
+
+.garage__pagination-button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.garage__pagination-button:focus,
+.garage__pagination-button:hover {
+  transition: all 0.3s ease;
+  color: rgb(255, 145, 0);
+  background-color: #0a0211;
+}
+
+
+@media (max-width: 999px) {
+  .garage__buttons {
+    width: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .garage__buttons {
+    width: 100%;
+  }
+  .garage__button {
+    min-width: 50px;
+    font-size: 14px;
+  }
+}
+.winner__row {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+
+.winner__row {
+  width: 100%;
+}
+
+.winner__number {
+  width: 10%;
+}
+
+.winner__car-image {
+  width: 40%;
+}
+
+.winner__car-name {
+  width: 30%;
+}
+
+.winner__victory-count {
+  width: 10%;
+}
+
+.winner__best-time {
+  width: 15%;
+}
+.winners__wrapper {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.winners__title {
+  margin: 20px 0;
+  font-size: 28px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.winners__table {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.winners__table td,
+.winners__table th {
+  border: 1px dashed rgb(255, 145, 0);
+}
+
+.winners__number {
+  width: 10%;
+}
+
+.winners__car-image {
+  width: 40%;
+}
+
+.winners__car-name {
+  width: 30%;
+}
+
+.winners__victory-count {
+  width: 10%;
+}
+
+.winners__best-time {
+  width: 15%;
+}
+
+.winners__page-number {
+  font-size: 24px;
+  color: rgb(255, 145, 0);
+  text-align: center;
+}
+
+.winners__pagination {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.winners__pagination-button {
+  min-width: 30px;
+  padding: 5px;
+  color: #0a0211;
+  background-color: rgb(255, 145, 0);
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 1px solid rgb(255, 145, 0);
+}
+
+.winners__pagination-button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.winners__pagination-button:focus,
+.winners__pagination-button:hover {
+  transition: all 0.3s ease;
+  color: rgb(255, 145, 0);
+  background-color: #0a0211;
+}
+.main-navigate {
+  background-color: rgb(255, 145, 0);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.main-navigate__button {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  background-color: #0a0211;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: rgb(255, 145, 0);
+}
+
+.main-navigate__button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.main-navigate__button:focus,
+.main-navigate__button:hover {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #0a0211;
+  border: 1px solid #0a0211;
+}
