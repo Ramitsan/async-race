@@ -31,7 +31,7 @@
 - [x] After some car wins it should be displayed at the "Winners view" table.
 - [x] There should be pagination (10 winners per one page).
 - [x] Table should include the next culumns: "№", "Image of the car", "Name of the car", "Wins number", "Best time in seconds" (names of the columns can differ). If the same car wins more than once the number of wins should be incremented while best time should be saved only if it's better than the stored one.
- - [ ] (+10) User should be able to sort cars by wins number and by best time (ASC, DESC).
+ - [ ] User should be able to sort cars by wins number and by best time (ASC, DESC).
  
 ### Non-functional requirements
 - [x] Typescript must be used. Types of input and output parameters of all the methods must be described. Using type "any" is strictly forbidden.
